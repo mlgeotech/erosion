@@ -1,1 +1,154 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+cell_df = pd.read_excel('erosion_data.xlsx')
+cell_df
+cell_df = cell_df.drop(columns=['Class'])
+cell_df
+print(cell_df.columns)
 
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Assuming cell_df contains numerical features
+numerical_features = cell_df.select_dtypes(include=['float64', 'int64'])
+# Calculate the correlation matrix
+correlation_matrix = numerical_features.corr()
+# Set seaborn style and font
+sns.set(style="whitegrid", font_scale=1.8, rc={'font.family': 'Times New Roman'})
+
+# Create a heatmap using seaborn
+plt.figure(figsize=(10, 8))
+heatmap = sns.heatmap(correlation_matrix, annot=True, cmap="GnBu", fmt=".2f",
+                      xticklabels=correlation_matrix.columns, yticklabels=correlation_matrix.columns)
+
+# Set x-axis and y-axis label color to black
+heatmap.tick_params(axis='both', colors='black')
+# Save the heatmap in high resolution (e.g., 300 DPI)
+plt.savefig('heatmap_high_resolution1.png', dpi=300)
+plt.show()
+
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+def print_score(clf, X_train, y_train, X_test, y_test, train=True):
+    if train:
+        pred = clf.predict(X_train)
+        clf_report = pd.DataFrame(classification_report(y_train, pred, output_dict=True))
+        print("Train Result:\n================================================")
+        print(f"Accuracy Score: {accuracy_score(y_train, pred) * 100:.2f}%")
+        print("_______________________________________________")
+        print(f"CLASSIFICATION REPORT:\n{clf_report}")
+        print("_______________________________________________")
+        print(f"Confusion Matrix: \n {confusion_matrix(y_train, pred)}\n")
+    elif train==False:
+        pred = clf.predict(X_test)
+        clf_report = pd.DataFrame(classification_report(y_test, pred, output_dict=True))
+        print("Test Result:\n================================================")        
+        print(f"Accuracy Score: {accuracy_score(y_test, pred) * 100:.2f}%")
+        print("_______________________________________________")
+        print(f"CLASSIFICATION REPORT:\n{clf_report}")
+        print("_______________________________________________")
+        print(f"Confusion Matrix: \n {confusion_matrix(y_test, pred)}\n")
+
+from sklearn.model_selection import train_test_split
+X = cell_df.drop('Class', axis=1)
+y = cell_df.Class
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#LOGISTIC REGRESSION
+#STEP 1
+
+from sklearn.linear_model import LogisticRegression
+lr_clf = LogisticRegression(solver='liblinear')
+lr_clf.fit(X_train, y_train)
+
+print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+from sklearn.model_selection import train_test_split
+feature_df = cell_df[['R', 'G', 'B', 'Texture', 'Gradient']]
+#X is independent variable
+X = np.asarray(feature_df)
+#y is dependent variable
+y = np.asarray(cell_df['Class'])
+
+#STEP 2
+
+# Split the data into training and test sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Instantiate the logistic regression model
+lr_clf = LogisticRegression(solver='liblinear')
+
+# Fit the model on the training data
+lr_clf.fit(X_train, y_train)
+
+# Predict the target variable for the training and test data
+y_train_pred = lr_clf.predict(X_train)
+y_test_pred = lr_clf.predict(X_test)
+
+# Print the predicted values
+print_score(lr_clf, X_train, y_train, X_test, y_test, train=True)
+print_score(lr_clf, X_train, y_train, X_test, y_test, train=False)
+print("Predicted values for training data:")
+print(y_train_pred)
+print("\nPredicted values for test data:")
+print(y_test_pred)
+
+#STEP 3
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+# Calculate and print evaluation metrics for the training set
+print("Evaluation metrics for training set:")
+print("Accuracy: {:.4f}".format(accuracy_score(y_train, y_train_pred)))
+print("Precision: {:.4f}".format(precision_score(y_train, y_train_pred)))
+print("Recall: {:.4f}".format(recall_score(y_train, y_train_pred)))
+print("F1-Score: {:.4f}".format(f1_score(y_train, y_train_pred)))
+
+# Calculate and print evaluation metrics for the test set
+print("\nEvaluation metrics for test set:")
+print("Accuracy: {:.4f}".format(accuracy_score(y_test, y_test_pred)))
+print("Precision: {:.4f}".format(precision_score(y_test, y_test_pred)))
+print("Recall: {:.4f}".format(recall_score(y_test, y_test_pred)))
+print("F1-Score: {:.4f}".format(f1_score(y_test, y_test_pred)))
+
+from sklearn.metrics import classification_report
+print("Classification Report:")
+print(classification_report(y_test, y_test_pred))
+
+#STEP 4
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Define the classes and metrics
+classes = [0, 1]
+metrics = ['Precision', 'Recall', 'F1-score']
+values = np.array([[0.88, 0.96, 0.92],
+                   [0.94, 0.84, 0.89]])
+# Create the heatmap
+sns.heatmap(values, annot=True, cmap='Blues', xticklabels=metrics, yticklabels=classes)
+plt.xlabel('Metrics')
+plt.ylabel('Classes')
+# plt.title('Performance Metrics Heatmap')
+# Display the heatmap
+a = plt.show()
+
+#STEP 5 CONFUSION MATRIX
+import numpy as np
+import matplotlib.pyplot as plt
+confusion_matrix = np.array([[133, 6],
+                             [18, 95]])
+
+# Plotting the heatmap
+plt.imshow(confusion_matrix, cmap='Blues')
+cbar = plt.colorbar()
+plt.title('Confusion Matrix Heatmap')
+plt.xlabel('Predicted Labels')
+plt.ylabel('True Labels')
+tick_marks = np.arange(len(confusion_matrix))
+plt.xticks(tick_marks, ['Negative', 'Positive'])
+plt.yticks(tick_marks, ['Negative', 'Positive'])
+thresh = confusion_matrix.max() / 2
+for i in range(len(confusion_matrix)):
+    for j in range(len(confusion_matrix)):
+        plt.text(j, i, format(confusion_matrix[i, j]), ha='center', va='center',
+                 color='white' if confusion_matrix[i, j] > thresh else 'black')
+# Displaying the heatmap
+plt.show()
