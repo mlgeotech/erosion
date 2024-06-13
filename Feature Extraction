@@ -1,14 +1,52 @@
-# to get the image sixe
-
+# To get the image size
 import cv2
 import numpy as np
-
 # Read the input image in grayscale
-img = cv2.imread('resized_200.jpg', cv2.IMREAD_GRAYSCALE)
-
-
+img = cv2.imread('erosion.jpg', cv2.IMREAD_GRAYSCALE)
 height, width = img.shape
 print('Image size: {} x {} pixels'.format(width, height))
-
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
+#STEP 1
+# To get the RGB value of selected pixels 
+img = cv2.imread('erosion.jpg')
+def get_pixel_value(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONUP:
+        pixel_value = img[y, x]
+        print('Pixel value at ({}, {}): {}'.format(x, y, pixel_value))
+cv2.namedWindow('image')
+cv2.setMouseCallback('image', get_pixel_value)
+# Display the image
+cv2.imshow('image', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+#STEP 2
+# To get the texture value
+from skimage import feature
+img = cv2.imread('erosion.jpg', 0)
+# Compute LBP feature vector
+radius = 3
+n_points = 8 * radius
+lbp = feature.local_binary_pattern(img, n_points, radius, method='uniform')
+print(lbp)
+lbp_code = lbp[s, k]   # s, k are the pixels coordinates for which texture value required
+lbp_code
+
+# To get the gradient magnitude value
+#STEP 3
+# Load the image
+img = cv2.imread('erosion.jpg',0)
+# Calculate the gradient using the sobel operator
+dx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
+dy = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
+# Calculate the magnitude and angle of the gradient
+mag, ang = cv2.cartToPolar(dx, dy, angleInDegrees=True)
+# Display the gradient magnitude of gradient
+print(mag)
+
+grad_mag = cv2.magnitude(dx, dy)
+mag_value = grad_mag[s, k]       # s, k are the pixels coordinates (replace these with original values) for which texture value required
+print(mag_value)
+
