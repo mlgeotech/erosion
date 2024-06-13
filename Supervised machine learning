@@ -499,6 +499,9 @@ img = cv2.imread('erosion_new.jpg')
 img.shape
 import pandas as pd
 import numpy as np
+
+# Make newdata frame for prediction using developed machine learning models
+
 df = pd.DataFrame(np.nan*np.ones([559*501, 5]), columns = ['R', 'G', 'B', 'Texture(LBP)', 'Gradient'])
 df['R'] = img[:,:,0].reshape([559*501, 1]).flatten()
 df['G'] = img[:,:,1].reshape([559*501, 1]).flatten()
@@ -513,7 +516,7 @@ prediction
 
 #Generate the AI image
 import matplotlib.pyplot as plt
-plt.imshow(predn.reshape(559, 501))
+plt.imshow(prediction.reshape(559, 501))
 
 # Calculate the erosion percantege 
 num_zeros = 0
@@ -529,7 +532,7 @@ eroded_area=(num_ones/280059)*100
 eroded_area
 
 
-#Finally, make a image directory, apply For loop and get the erosion variation over a time frame. 
+#Finally, make a image directory, apply For loop and get the erosion variation over a each time frame. 
 
 
 Thanks & regards
