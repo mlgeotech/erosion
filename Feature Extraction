@@ -1,1 +1,14 @@
+# to get the image sixe
 
+import cv2
+import numpy as np
+
+# Read the input image in grayscale
+img = cv2.imread('resized_200.jpg', cv2.IMREAD_GRAYSCALE)
+
+
+height, width = img.shape
+print('Image size: {} x {} pixels'.format(width, height))
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
