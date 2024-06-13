@@ -54,7 +54,7 @@ y = cell_df.Class
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 #LOGISTIC REGRESSION
-#STEP 1
+1.
 
 from sklearn.linear_model import LogisticRegression
 lr_clf = LogisticRegression(solver='liblinear')
@@ -69,7 +69,7 @@ X = np.asarray(feature_df)
 #y is dependent variable
 y = np.asarray(cell_df['Class'])
 
-#STEP 2
+2.
 
 # Split the data into training and test sets (80% training, 20% testing)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -92,7 +92,7 @@ print(y_train_pred)
 print("\nPredicted values for test data:")
 print(y_test_pred)
 
-#STEP 3
+3.
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 # Calculate and print evaluation metrics for the training set
 print("Evaluation metrics for training set:")
@@ -112,7 +112,7 @@ from sklearn.metrics import classification_report
 print("Classification Report:")
 print(classification_report(y_test, y_test_pred))
 
-#STEP 4
+4.
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -130,7 +130,7 @@ plt.ylabel('Classes')
 # Display the heatmap
 a = plt.show()
 
-#STEP 5 CONFUSION MATRIX
+5. 
 import numpy as np
 import matplotlib.pyplot as plt
 confusion_matrix = np.array([[133, 6],
@@ -152,3 +152,205 @@ for i in range(len(confusion_matrix)):
                  color='white' if confusion_matrix[i, j] > thresh else 'black')
 # Displaying the heatmap
 plt.show()
+
+
+# K-nearest neighbors
+
+1. 
+from sklearn.model_selection import train_test_split
+eroded_df = cell_df[cell_df['Class']==1][0:300]
+non_eroded_df = cell_df[cell_df['Class']==0][0:90]
+X = cell_df.drop('Class', axis=1)
+y = cell_df.Class
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+from sklearn.neighbors import KNeighborsClassifier
+knn_clf = KNeighborsClassifier()
+knn_clf.fit(X_train, y_train)
+print_score(knn_clf, X_train, y_train, X_test, y_test, train=True)
+print_score(knn_clf, X_train, y_train, X_test, y_test, train=False)
+
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+feature_df = cell_df[['R', 'G', 'B', 'Texture(LBP)', 'Gradient']]
+# X is the independent variable
+X = np.asarray(feature_df)
+# y is the dependent variable
+y = np.asarray(cell_df['Class'])
+
+# Split the data into training and test sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Instantiate the KNN classifier
+knn_clf = KNeighborsClassifier()
+
+# Fit the model on the training data
+knn_clf.fit(X_train, y_train)
+
+# Predict the target variable for the training and test data
+y_train_pred = knn_clf.predict(X_train)
+y_test_pred = knn_clf.predict(X_test)
+
+# Calculate the training accuracy
+train_score = accuracy_score(y_train, y_train_pred) * 100
+# Calculate the testing accuracy
+test_score = accuracy_score(y_test, y_test_pred) * 100
+
+# Print the scores
+print("Training Accuracy: {:.2f}%".format(train_score))
+print("Testing Accuracy: {:.2f}%".format(test_score))
+
+2.
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+# Calculate and print evaluation metrics for the training set
+print("Evaluation metrics for training set:")
+print("Accuracy: {:.4f}".format(accuracy_score(y_train, y_train_pred)))
+print("Precision: {:.4f}".format(precision_score(y_train, y_train_pred)))
+print("Recall: {:.4f}".format(recall_score(y_train, y_train_pred)))
+print("F1-Score: {:.4f}".format(f1_score(y_train, y_train_pred)))
+
+# Calculate and print evaluation metrics for the test set
+print("\nEvaluation metrics for test set:")
+print("Accuracy: {:.4f}".format(accuracy_score(y_test, y_test_pred)))
+print("Precision: {:.4f}".format(precision_score(y_test, y_test_pred)))
+print("Recall: {:.4f}".format(recall_score(y_test, y_test_pred)))
+print("F1-Score: {:.4f}".format(f1_score(y_test, y_test_pred)))
+
+3.
+from sklearn.metrics import classification_report
+print("Classification Report:")
+print(classification_report(y_test, y_test_pred))
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Define the classes and metrics
+classes = [0, 1]
+metrics = ['Precision', 'Recall', 'F1-score']
+values = np.array([[0.93, 0.94, 0.94],
+                   [0.93, 0.91, 0.92]])
+
+# Create the heatmap
+sns.heatmap(values, annot=True, cmap='Blues', xticklabels=metrics, yticklabels=classes)
+# Set labels and title
+plt.xlabel('Metrics')
+plt.ylabel('Classes')
+plt.title('Performance Metrics Heatmap')
+# Display the heatmap
+plt.show()
+
+4.
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+actual_values = y_test
+predicted_values = y_test_pred
+# Create the confusion matrix
+cm = confusion_matrix(actual_values, predicted_values)
+cm
+
+# Random forest
+1.
+
+from sklearn.model_selection import train_test_split
+eroded_df = cell_df[cell_df['Class']==1][0:300]
+non_eroded_df = cell_df[cell_df['Class']==0][0:90]
+X = cell_df.drop('Class', axis=1)
+y = cell_df.Class
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RandomizedSearchCV
+rf_clf = RandomForestClassifier(n_estimators=1000, random_state=42)
+rf_clf.fit(X_train, y_train)
+
+print_score(rf_clf, X_train, y_train, X_test, y_test, train=True)
+print_score(rf_clf, X_train, y_train, X_test, y_test, train=False)
+
+2.
+from sklearn.ensemble import RandomForestClassifier
+
+feature_df = cell_df[['R', 'G', 'B', 'Texture(LBP)', 'Gradient']]
+# X is the independent variable
+X = np.asarray(feature_df)
+# y is the dependent variable
+y = np.asarray(cell_df['Class'])
+
+# Split the data into training and test sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Instantiate the Random Forest classifier
+rf_clf = RandomForestClassifier()
+
+# Fit the model on the training data
+rf_clf.fit(X_train, y_train)
+
+# Predict the target variable for the training and test data
+y_train_pred = rf_clf.predict(X_train)
+y_test_pred = rf_clf.predict(X_test)
+
+# Calculate the training accuracy
+train_score = accuracy_score(y_train, y_train_pred) * 100
+
+# Calculate the testing accuracy
+test_score = accuracy_score(y_test, y_test_pred) * 100
+
+# Print the scores
+print("Training Accuracy: {:.2f}%".format(train_score))
+print("Testing Accuracy: {:.2f}%".format(test_score))
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+# Calculate and print evaluation metrics for the training set
+print("Evaluation metrics for training set:")
+print("Accuracy: {:.4f}".format(accuracy_score(y_train, y_train_pred)))
+print("Precision: {:.4f}".format(precision_score(y_train, y_train_pred)))
+print("Recall: {:.4f}".format(recall_score(y_train, y_train_pred)))
+print("F1-Score: {:.4f}".format(f1_score(y_train, y_train_pred)))
+
+# Calculate and print evaluation metrics for the test set
+print("\nEvaluation metrics for test set:")
+print("Accuracy: {:.4f}".format(accuracy_score(y_test, y_test_pred)))
+print("Precision: {:.4f}".format(precision_score(y_test, y_test_pred)))
+print("Recall: {:.4f}".format(recall_score(y_test, y_test_pred)))
+print("F1-Score: {:.4f}".format(f1_score(y_test, y_test_pred)))
+
+from sklearn.metrics import classification_report
+
+print("Classification Report:")
+print(classification_report(y_test, y_test_pred))
+mport numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Define the classes and metrics
+classes = [0, 1]
+metrics = ['Precision', 'Recall', 'F1-score']
+values = np.array([[0.94, 0.95, 0.94],
+                   [0.94, 0.92, 0.93]])
+
+# Create the heatmap
+sns.heatmap(values, annot=True, cmap='Blues', xticklabels=metrics, yticklabels=classes)
+
+# Set labels and title
+plt.xlabel('Metrics')
+plt.ylabel('Classes')
+plt.title('Performance Metrics Heatmap')
+
+# Display the heatmap
+plt.show()
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+
+# Define the actual values and predicted values
+actual_values = y_test
+predicted_values = y_test_pred
+
+# Create the confusion matrix
+cm = confusion_matrix(actual_values, predicted_values)
+cm
