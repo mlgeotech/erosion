@@ -491,3 +491,48 @@ predicted_values = y_test_pred
 # Create the confusion matrix
 cm = confusion_matrix(actual_values, predicted_values)
 cm
+
+
+# Now, Calculate the eroded and non- eroded areas
+
+img = cv2.imread('erosion_new.jpg')
+img.shape
+import pandas as pd
+import numpy as np
+df = pd.DataFrame(np.nan*np.ones([559*501, 5]), columns = ['R', 'G', 'B', 'Texture(LBP)', 'Gradient'])
+df['R'] = img[:,:,0].reshape([559*501, 1]).flatten()
+df['G'] = img[:,:,1].reshape([559*501, 1]).flatten()
+df['B'] = img[:,:,2].reshape([559*501, 1]).flatten()
+df['Texture']  = lbp.flatten()
+df['Gradient']  = mag.flatten()
+
+df
+
+prediction = knn_clf.predict(df)
+prediction
+
+#Generate the AI image
+import matplotlib.pyplot as plt
+plt.imshow(predn.reshape(559, 501))
+
+# Calculate the erosion percantege 
+num_zeros = 0
+num_ones = 0
+for value in predn:
+    if value == 0:
+        num_zeros += 1
+    elif value == 1:
+        num_ones += 1
+print(num_zeros)
+print(num_ones)
+eroded_area=(num_ones/280059)*100
+eroded_area
+
+
+#Finally, make a image directory, apply For loop and get the erosion variation over a time frame. 
+
+
+Thanks & regards
+
+SHUBHAM KUMAR
+Ph.D. Scholar, IIT Mandi
