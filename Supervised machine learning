@@ -532,7 +532,7 @@ eroded_area=(num_ones/280059)*100
 eroded_area
 
 
-#Finally, make a image directory, apply For loop and get the erosion variation over a each time frame. 
+#Finally, make a image directory, apply FOR loop and get the erosion variation over a each time frame. 
 
 
 Thanks & regards
