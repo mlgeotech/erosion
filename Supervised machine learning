@@ -472,8 +472,8 @@ import matplotlib.pyplot as plt
 # Define the classes and metrics
 classes = [0, 1]
 metrics = ['Precision', 'Recall', 'F1-score']
-values = np.array([[0.93, 0.94, 0.94],
-                   [0.93, 0.91, 0.92]])
+values = np.array([[],
+                   []])
 # Create the heatmap
 sns.heatmap(values, annot=True, cmap='Blues', xticklabels=metrics, yticklabels=classes)
 
