@@ -514,7 +514,7 @@ df
 prediction = knn_clf.predict(df)
 prediction
 
-#Generate the AI image
+#Generate the ML image
 import matplotlib.pyplot as plt
 plt.imshow(prediction.reshape(559, 501))
 
