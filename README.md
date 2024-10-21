@@ -1,9 +1,9 @@
-# Project title
+# Manuscript title
 Integrated Image Processing and Machine Learning Framework for Precise Quantification and Prediction of Soil Erosion
 
 # Brief Overview
 
-This project presents a novel approach to quantifying and predicting soil erosion by utilizing an integrated framework that combines image processing techniques with machine learning. The focus of the study is on extracting key features from high-resolution images obtained during controlled flume experiments, which replicate different erosion conditions.
+This manuscript presents a novel approach to quantifying and predicting soil erosion by utilizing an integrated framework that combines image processing techniques with machine learning. The focus of the study is on extracting key features from high-resolution images obtained during controlled flume experiments, which replicate different erosion conditions.
 
 # Key Contributions
 
