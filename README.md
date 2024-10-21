@@ -23,7 +23,7 @@ We are confident that this integrated approach not only enhances the scientific 
 # Programming language
 Python 3.11 or higher is required to run.
 
-# Other requirement:
+# Other requirement
 Anaconda or Jupter notebook.
 
 
