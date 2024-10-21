@@ -16,9 +16,14 @@ This project presents a novel approach to quantifying and predicting soil erosio
 The results of this research have substantial implications for environmental monitoring and management strategies. By enabling real-time evaluation of soil erosion, this work can assist policymakers and land managers in formulating effective soil conservation strategies, reducing land degradation, and promoting sustainable agricultural methods.
 We are confident that this integrated approach not only enhances the scientific understanding of soil erosion processes but also provides practical tools for environmental monitoring and management.
 
+# Guidelines
+
+[Guidelines.pdf](https://github.com/user-attachments/files/17460216/Guidelines.pdf)
+
 # Programming language
 Python 3.11 or higher is required to run.
 
 # Other requirement:
 Anaconda or Jupter notebook.
+
 
